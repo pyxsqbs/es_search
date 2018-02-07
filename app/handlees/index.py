@@ -33,7 +33,7 @@ def collapse_search(index_name, type_name, keyword, result_max_size, result_from
             }
         },
         "collapse": {
-            "field": "type"
+            "field": "spu" # 折叠去重操作 ，根据spu ,每一种spu只查询评分最高的一条数据 参考资料：https://elasticsearch.cn/article/132
         },
         "from": result_from
     }
@@ -96,6 +96,8 @@ def create_table(index_name, type_name, args):
     global analyzer
     if index_name == "product_name_index_smart":
         analyzer = "ik_smart"
+
+    # 使参数选项中  只要type为text 就插入analyzer、 search_analyzer项, 其他情况不变
     dsl = dict()
     dsl['properties'] = dict()
     dsl_props = dsl['properties']
